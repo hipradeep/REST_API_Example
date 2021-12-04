@@ -2,6 +2,7 @@ package com.hipradeep.rest_api_example;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
@@ -13,10 +14,11 @@ import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.hipradeep.rest_api_example.services.models.requests.RequestData;
-import com.hipradeep.rest_api_example.services.models.responses.ResponseData;
-import com.hipradeep.rest_api_example.services.ApiServices;
-import com.hipradeep.rest_api_example.services.ServiceGenerator;
+import com.hipradeep.rest_api_example.using_retrofit.UsingRetrofitActivity;
+import com.hipradeep.rest_api_example.using_retrofit.services.models.requests.RequestData;
+import com.hipradeep.rest_api_example.using_retrofit.services.models.responses.ResponseData;
+import com.hipradeep.rest_api_example.using_retrofit.services.ApiServices;
+import com.hipradeep.rest_api_example.using_retrofit.services.ServiceGenerator;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -40,62 +42,56 @@ public class MainActivity extends AppCompatActivity {
         progressBar=findViewById(R.id.progressBar);
         tv_response=findViewById(R.id.tv_response);
         tl_table=findViewById(R.id.tl_table);
-
-         apiServices = ServiceGenerator.createService(ApiServices.class, "interviewmaisha", "interview@maisha@12701");
-
-
-
-
+        //apiServices = ServiceGenerator.createService(ApiServices.class, "interviewmaisha", "interview@maisha@12701");
+        apiServices = ServiceGenerator.createService(ApiServices.class);
         et_mail.setSelection(et_mail.getText().toString().trim().length());
 
         btn_send_req.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String email=et_mail.getText().toString().trim();
-                //progressBar.setVisibility(View.GONE);
-                tl_table.setVisibility(View.GONE);
+                startActivity(new Intent(MainActivity.this, UsingRetrofitActivity.class));
 
-                if (!email.isEmpty()){
-                    if ( Patterns.EMAIL_ADDRESS.matcher(email).matches()){
-
-                        requestForResponse(email);
-                    }else{
-                        Toast.makeText(MainActivity.this, "Enter valid email!", Toast.LENGTH_SHORT).show();
-                    }
-
-                }else{
-                    et_mail.setError("Please Enter email!");
-                }
+//                String email=et_mail.getText().toString().trim();
+//                //progressBar.setVisibility(View.GONE);
+//                tl_table.setVisibility(View.GONE);
+//
+//                if (!email.isEmpty()){
+//                    if ( Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+//
+//                        requestForResponse(email);
+//                    }else{
+//                        Toast.makeText(MainActivity.this, "Enter valid email!", Toast.LENGTH_SHORT).show();
+//                    }
+//
+//                }else{
+//                    et_mail.setError("Please Enter email!");
+//                }
             }
         });
 
     }
 
-    private void requestForResponse(String email) {
-        progressBar.setVisibility(View.VISIBLE);
-        RequestData requestData=new RequestData();
-        requestData.setEmail(email);
-
-        Call<ResponseData> call=apiServices.getTestService(requestData);
-        call.enqueue(new Callback<ResponseData>() {
-            @Override
-            public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
-                progressBar.setVisibility(View.GONE);
-                tl_table.setVisibility(View.VISIBLE);
-
-                assert response.body() != null;
-                if (!response.body().getResponse().isEmpty() && response.body().getResponse() !=null){
-                    tv_response.setText(response.body().getResponse());
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<ResponseData> call, Throwable t) {
-
-                Log.e("TAG", t.getMessage());
-            }
-        });
-
-    }
+//    private void requestForResponse(String email) {
+//        progressBar.setVisibility(View.VISIBLE);
+//        RequestData requestData=new RequestData();
+//        requestData.setEmail(email);
+//
+//        Call<ResponseData> call=apiServices.getTestService(requestData);
+//        call.enqueue(new Callback<ResponseData>() {
+//            @Override
+//            public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+//                progressBar.setVisibility(View.GONE);
+//                tl_table.setVisibility(View.VISIBLE);
+//                assert response.body() != null;
+//                if (!response.body().getResponse().isEmpty() && response.body().getResponse() !=null){
+//                    tv_response.setText(response.body().getResponse());
+//                }
+//            }
+//            @Override
+//            public void onFailure(Call<ResponseData> call, Throwable t) {
+//                Log.e("TAG", t.getMessage());
+//            }
+//        });
+//
+//    }
 }
