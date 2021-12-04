@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".using_retrofit.fragments.PostFragment">
+
+ <androidx.constraintlayout.widget.ConstraintLayout
+     android:layout_width="match_parent"
+     android:layout_height="match_parent">
+
+  <Spinner
+      android:id="@+id/spinner_choose_methods"
+      style="@style/TextAppearance.AppCompat.Small"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="24dp"
+      android:layout_marginEnd="24dp"
+      android:spinnerMode="dropdown"
+      android:entries="@array/methods_array"
+      app:layout_constraintBottom_toBottomOf="@+id/btn_request"
+      app:layout_constraintEnd_toStartOf="@+id/btn_request"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="@+id/btn_request" />
+
+  <Button
+      android:id="@+id/btn_request"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="8dp"
+      android:layout_marginEnd="24dp"
+      android:text="Request"
+      android:textAllCaps="false"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+  <TextView
+      android:id="@+id/textView6"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="24dp"
+      android:layout_marginTop="32dp"
+      android:text="Base Url : https://jsonplaceholder.typicode.com/\nEnd Url : posts/"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent" />
+
+  <LinearLayout
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="24dp"
+      android:layout_marginTop="8dp"
+      android:layout_marginEnd="24dp"
+      android:orientation="vertical"
+      android:id="@+id/ll_et_container"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/btn_request">
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal">
+
+   <EditText
+       android:id="@+id/et_1"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:ems="10"
+       android:visibility="gone"
+       android:layout_weight="1"
+
+       android:inputType="textPersonName"
+       android:hint="post id"
+      />
+
+   <EditText
+       android:id="@+id/et_2"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:ems="10"
+       android:layout_weight="1"
+       android:hint="user id"
+       android:visibility="gone"
+       android:inputType="textPersonName"
+        />
+  </LinearLayout>
+
+
+    <EditText
+        android:id="@+id/et_3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:visibility="gone"
+        android:layout_weight="1"
+        android:inputType="textPersonName"
+        android:hint="title" />
+
+    <EditText
+        android:id="@+id/et_4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:visibility="gone"
+        android:layout_weight="1"
+        android:inputType="textPersonName"
+        android:hint="body" />
+
+
+  </LinearLayout>
+
+
+  <TextView
+      android:id="@+id/tv_response"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="24dp"
+      android:layout_marginTop="16dp"
+      android:text="Response: "
+      android:textColor="@color/black"
+      android:textSize="18sp"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/ll_et_container" />
+
+  <TextView
+      android:id="@+id/tv_response_data"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="24dp"
+      android:layout_marginTop="16dp"
+      android:layout_marginEnd="24dp"
+      android:visibility="gone"
+      android:padding="16dp"
+      android:background="@color/bg_color_2"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/tv_response" />
+ </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>

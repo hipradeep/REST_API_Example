@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.hipradeep.rest_api_example">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -14,9 +15,7 @@
         <activity
             android:name=".using_volley.UsingVolleyActivity"
             android:exported="true" />
-        <activity
-            android:name=".using_retrofit.UsingRetrofitActivity"
-            android:exported="true" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true">
