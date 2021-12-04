@@ -6,7 +6,9 @@ RESTful APIs communicate through HTTP requests to perform CRUD (create, read, up
 
 ### Client and Server
 In RESTful design, the client and server must be distinct from one another. The client requests information with a **Uniform Resource Identifier (URI)**, and the server responds to the request through **HTTP/HTTPS**. Both the client and server should evolve independently. This independence allows for scalability on both sides.  
-
+![rest api](https://user-images.githubusercontent.com/32573663/144695423-2640e390-2809-442d-b92d-22ac5f26efb6.png)
 
 https://code.tutsplus.com/tutorials/android-from-scratch-using-rest-apis--cms-27117
+https://hmkcode.com/android-send-json-data-to-server/
+
 
