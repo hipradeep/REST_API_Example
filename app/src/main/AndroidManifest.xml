@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TestRest">
         <activity
+            android:name=".using_volley.UsingVolleyActivity"
+            android:exported="true" />
+        <activity
             android:name=".using_retrofit.UsingRetrofitActivity"
             android:exported="true" />
         <activity
