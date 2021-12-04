@@ -1,4 +1,4 @@
-package com.hipradeep.rest_api_example.services;
+package com.hipradeep.rest_api_example.using_retrofit.services;
 
 import androidx.annotation.NonNull;
 
@@ -18,7 +18,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class ServiceGenerator {
-    private static final String BASE_URL = "https://www.maishainfotech.com/";
+    ///private static final String BASE_URL = "https://www.maishainfotech.com/";
+    private static final String BASE_URL = "https://jsonplaceholder.typicode.com";
 
     private static final Gson gson = new GsonBuilder().setLenient().create();
 
@@ -26,32 +27,47 @@ public class ServiceGenerator {
         return createService(serviceClass, null, null);
     }
 
-
-
     public static <S> S createService(Class<S> serviceClass, String username, String password) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
-                .client(provideOkHttpClient(username, password))
+                .client(provideOkHttpClient2())
                 .addConverterFactory(ScalarsConverterFactory.create()).addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
         return retrofit.create(serviceClass);
     }
 
 
-
     private static OkHttpClient provideOkHttpClient(String username, String password) {
 
-        return new OkHttpClient.Builder().
-                readTimeout(1, TimeUnit.MINUTES)
-                .connectTimeout(2, TimeUnit.MINUTES)
-                .addInterceptor(new BasicAuthInterceptor(username, password))
-                .build();
+        if ( username !=null || password !=null) {
+            return new OkHttpClient.Builder().
+                    readTimeout(1, TimeUnit.MINUTES)
+                    .connectTimeout(2, TimeUnit.MINUTES)
+                    .build();
+        } else{
+
+            return new OkHttpClient.Builder().
+                    readTimeout(1, TimeUnit.MINUTES)
+                    .connectTimeout(2, TimeUnit.MINUTES)
+                    .addInterceptor(new BasicAuthInterceptor(username, password))
+                    .build();
+        }
+
+    }
+    private static OkHttpClient provideOkHttpClient2() {
+
+
+            return new OkHttpClient.Builder().
+                    readTimeout(1, TimeUnit.MINUTES)
+                    .connectTimeout(2, TimeUnit.MINUTES)
+                    .build();
+
     }
 
 
-    public static  class BasicAuthInterceptor implements Interceptor {
+    public static class BasicAuthInterceptor implements Interceptor {
 
-        private String credentials;
+        private final String credentials;
 
         public BasicAuthInterceptor(String user, String password) {
             this.credentials = Credentials.basic(user, password);

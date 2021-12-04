@@ -1,4 +1,4 @@
-package com.hipradeep.rest_api_example.services.models.requests;
+package com.hipradeep.rest_api_example.using_retrofit.services.models.requests;
 
 import com.google.gson.annotations.SerializedName;
 
