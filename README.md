@@ -15,5 +15,7 @@ In RESTful design, the client and server must be distinct from one another. The 
 
 https://code.tutsplus.com/tutorials/android-from-scratch-using-rest-apis--cms-27117  
 https://hmkcode.com/android-send-json-data-to-server/
+https://www.programcreek.com/java-api-examples/?api=com.android.volley.toolbox.JsonArrayRequest
+
 
 
