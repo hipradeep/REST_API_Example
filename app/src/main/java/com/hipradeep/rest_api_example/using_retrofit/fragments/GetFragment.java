@@ -22,8 +22,8 @@ import com.hipradeep.rest_api_example.using_retrofit.adapters.CommentsAdapter;
 import com.hipradeep.rest_api_example.using_retrofit.adapters.PostsAdapter;
 import com.hipradeep.rest_api_example.using_retrofit.services.ApiServices;
 import com.hipradeep.rest_api_example.using_retrofit.services.ServiceGenerator;
-import com.hipradeep.rest_api_example.using_retrofit.services.models.responses.comments.ResponseComments;
-import com.hipradeep.rest_api_example.using_retrofit.services.models.responses.posts.PostsModel;
+import com.hipradeep.rest_api_example.using_retrofit.services.models.responses.ResponseComments;
+import com.hipradeep.rest_api_example.using_retrofit.services.models.responses.ResponsePosts;
 
 import java.util.List;
 
@@ -34,10 +34,11 @@ import retrofit2.Response;
 public class GetFragment extends Fragment {
 
     private RecyclerView rv_response_list;
-    private TextView tv_response;
+    private TextView tv_response, tv_response_data;
     private Button btn_request;
     private EditText et_request_end;
-   private ApiServices apiServices;
+    private ApiServices apiServices;
+
     public GetFragment() {
         // Required empty public constructor
     }
@@ -45,90 +46,106 @@ public class GetFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        apiServices = ServiceGenerator.createService(ApiServices.class);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v= inflater.inflate(R.layout.fragment_get, container, false);
-        rv_response_list=v.findViewById(R.id.rv_response_list);
-        btn_request=v.findViewById(R.id.btn_request);
-        et_request_end=v.findViewById(R.id.et_request_end);
-        tv_response=v.findViewById(R.id.tv_response);
-        apiServices = ServiceGenerator.createService(ApiServices.class);
+        View v = inflater.inflate(R.layout.fragment_get, container, false);
+        rv_response_list = v.findViewById(R.id.rv_response_list);
+        btn_request = v.findViewById(R.id.btn_request);
+        et_request_end = v.findViewById(R.id.et_request_end);
+        tv_response = v.findViewById(R.id.tv_response);
+        tv_response_data = v.findViewById(R.id.tv_response_data);
+
         btn_request.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                String path=et_request_end.getText().toString().trim();
-                Toast.makeText(getContext(), path, Toast.LENGTH_SHORT).show();
-                if(!path.isEmpty()){
-                    if (path.equals("/posts")){
-                        getPostsRequest(path);
+                String path = et_request_end.getText().toString().trim();
+
+                if (!path.isEmpty()) {
+                    if (path.contains("/comments") || path.contains("posts/")) {
+                        if (path.equals("posts/")) {
+                            getPostsRequest(path);
+                        } else if (path.contains("/comments")) {
+                            getCommentsRequest(getIds(path));
+                        } else if (path.length() > 6 && path.length() < 10) {
+                            getSinglePostRequest(getIds(path));
+                        } else {
+                            Toast.makeText(getContext(), "Please enter correct url!", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Toast.makeText(getContext(), "Please enter correct url!", Toast.LENGTH_SHORT).show();
                     }
-
-
-//                    else if (path.contains("comments"))
-//                        getCommentsRequest(path);
-//
-//                    else getSinglePostRequest(path);
-                }else
-                {
+                } else {
                     Toast.makeText(getContext(), "end url empty!", Toast.LENGTH_SHORT).show();
                 }
-
 
 
             }
         });
 
 
-
-
-        return  v;
+        return v;
     }
 
-    private void getSinglePostRequest(String path) {
-        Call<PostsModel> call=apiServices.getSinglePosts(path);
-        call.enqueue(new Callback<PostsModel>() {
+    private String getIds(String path) {
+
+        String[] parts = path.split("/");
+        String part1 = parts[0]; // posts
+        String part2 = parts[1]; // 1
+        //String part3 = parts[2]; // comments
+        Log.e("TAG", "ID : " + part2);
+        return part2;
+
+
+    }
+
+    private void getSinglePostRequest(String id) {
+        Log.e("TAG", String.valueOf(id));
+        Call<ResponsePosts> call = apiServices.getSinglePosts(id);
+        call.enqueue(new Callback<ResponsePosts>() {
             @SuppressLint("SetTextI18n")
             @Override
-            public void onResponse(Call<PostsModel> call, Response<PostsModel> response) {
+            public void onResponse(Call<ResponsePosts> call, Response<ResponsePosts> response) {
                 rv_response_list.setVisibility(View.GONE);
-                tv_response.setVisibility(View.VISIBLE);
-                try{
-
+                tv_response_data.setVisibility(View.VISIBLE);
+                try {
+                    Log.e("TAG", String.valueOf(response.body()));
                     assert response.body() != null;
-                    tv_response.setText(
-                            "ID => "+ response.body().getId() +"\n"
-                                    +"User ID =>"+ response.body().getUserId() +"\n"
-                                    +"Title => " + response.body().getTitle() +"\n"
-                                    +"Body => " + response.body().getBody() +"\n"
+
+                    tv_response_data.setText(
+                            "ID => " + response.body().getId() + "\n"
+                                    + "User ID =>" + response.body().getUserId() + "\n"
+                                    + "Title => " + response.body().getTitle() + "\n"
+                                    + "Body => " + response.body().getBody() + "\n"
                     );
 
-                }catch (Exception ignore){
-                    Log.e("TAG", String.valueOf(ignore));
+                } catch (Exception e) {
+                    Log.e("TAG", String.valueOf(e));
                 }
             }
 
             @Override
-            public void onFailure(Call<PostsModel> call, Throwable t) {
+            public void onFailure(Call<ResponsePosts> call, Throwable t) {
                 Log.e("TAG", String.valueOf(t));
             }
         });
     }
 
-    private void getCommentsRequest(String path) {
-        Call<List<ResponseComments>> call=apiServices.getComments(path);
+    private void getCommentsRequest(String id) {
+
+        Call<List<ResponseComments>> call = apiServices.getComments(id);
         call.enqueue(new Callback<List<ResponseComments>>() {
             @Override
             public void onResponse(Call<List<ResponseComments>> call, Response<List<ResponseComments>> response) {
-                try{
+                try {
                     setRecyclerViewForCommentsList(response.body());
 
-                }catch (Exception ignore){
+                } catch (Exception ignore) {
                     Log.e("TAG", String.valueOf(ignore));
                 }
             }
@@ -141,51 +158,59 @@ public class GetFragment extends Fragment {
     }
 
 
-
     private void getPostsRequest(String path) {
-        Log.e("TAG", "path"+path);
-        Call<List<PostsModel>> call=apiServices.getPostsList("/posts");
+        Log.e("TAG", "path" + path);
+        Call<List<ResponsePosts>> call = apiServices.getPostsList();
 
-        call.enqueue(new Callback<List<PostsModel>>() {
+        call.enqueue(new Callback<List<ResponsePosts>>() {
             @Override
-            public void onResponse(Call<List<PostsModel>> call, Response<List<PostsModel>> response) {
+            public void onResponse(Call<List<ResponsePosts>> call, Response<List<ResponsePosts>> response) {
 
-                try{
-                    if(response.body() !=null)
-                   // setRecyclerView(response.body());
+                try {
+                    if (response.body() != null)
+                        setRecyclerView(response.body());
                     Log.e("TAG", String.valueOf(response.body()));
 
-                }catch (Exception ignore){
+                } catch (Exception ignore) {
                     Log.e("TAG", String.valueOf(ignore));
                 }
             }
 
             @Override
-            public void onFailure(Call<List<PostsModel>> call, Throwable t) {
+            public void onFailure(Call<List<ResponsePosts>> call, Throwable t) {
                 Log.e("TAG", String.valueOf(t));
             }
         });
 
     }
 
-    private void setRecyclerView(List<PostsModel> _list) {
+    private void setRecyclerView(List<ResponsePosts> _list) {
         rv_response_list.setVisibility(View.VISIBLE);
-        tv_response.setVisibility(View.GONE);
+        tv_response_data.setVisibility(View.GONE);
 
-        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getContext());
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
         rv_response_list.setLayoutManager(linearLayoutManager);
-        PostsAdapter adapter=new PostsAdapter(_list, getContext());
-        rv_response_list.setAdapter(adapter);
+        if (_list.size() > 0) {
+            PostsAdapter adapter = new PostsAdapter(_list, getContext());
+            rv_response_list.setAdapter(adapter);
+        } else {
+            tv_response.append(" null");
+        }
     }
-    private void setRecyclerViewForCommentsList(List<ResponseComments> list) {
-        rv_response_list.setVisibility(View.VISIBLE);
-        tv_response.setVisibility(View.GONE);
 
-        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getContext());
+    private void setRecyclerViewForCommentsList(List<ResponseComments> _list) {
+        rv_response_list.setVisibility(View.VISIBLE);
+        tv_response_data.setVisibility(View.GONE);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
         rv_response_list.setLayoutManager(linearLayoutManager);
-        CommentsAdapter adapter=new CommentsAdapter(list, getContext());
-        rv_response_list.setAdapter(adapter);
+        if (_list.size() > 0) {
+            CommentsAdapter adapter = new CommentsAdapter(_list, getContext());
+            rv_response_list.setAdapter(adapter);
+        } else {
+            tv_response.append(" null");
+        }
     }
 }

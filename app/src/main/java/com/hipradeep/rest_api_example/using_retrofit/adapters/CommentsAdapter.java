@@ -12,8 +12,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.hipradeep.rest_api_example.R;
-import com.hipradeep.rest_api_example.using_retrofit.services.models.responses.comments.ResponseComments;
-import com.hipradeep.rest_api_example.using_retrofit.services.models.responses.posts.PostsModel;
+import com.hipradeep.rest_api_example.using_retrofit.services.models.responses.ResponseComments;
 
 import java.util.List;
 

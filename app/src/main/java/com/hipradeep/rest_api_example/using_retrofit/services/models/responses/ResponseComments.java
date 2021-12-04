@@ -1,8 +1,8 @@
-package com.hipradeep.rest_api_example.using_retrofit.services.models.responses.comments;
+package com.hipradeep.rest_api_example.using_retrofit.services.models.responses;
 
 import com.google.gson.annotations.SerializedName;
 
-public class ResponseComments{
+public class ResponseComments {
 
 	@SerializedName("name")
 	private String name;

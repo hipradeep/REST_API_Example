@@ -12,15 +12,15 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.hipradeep.rest_api_example.R;
-import com.hipradeep.rest_api_example.using_retrofit.services.models.responses.posts.PostsModel;
+import com.hipradeep.rest_api_example.using_retrofit.services.models.responses.ResponsePosts;
 
 import java.util.List;
 
 public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.MyViewHolder> {
-    List<PostsModel> list;
+    List<ResponsePosts> list;
     Context context;
 
-    public PostsAdapter(List<PostsModel> list, Context context) {
+    public PostsAdapter(List<ResponsePosts> list, Context context) {
         this.list = list;
         this.context = context;
     }

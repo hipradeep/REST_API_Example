@@ -18,7 +18,7 @@
             android:layout_marginStart="24dp"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="/posts"
+            android:text="posts/"
             app:layout_constraintEnd_toStartOf="@+id/textView3"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView2" />
@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="32dp"
-            android:text="/posts/1/comments"
+            android:text="Base Url : https://jsonplaceholder.typicode.com/\nEnd Url : posts/1/comments"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -76,6 +76,8 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="24dp"
             android:visibility="gone"
+           android:padding="16dp"
+            android:background="@color/bg_color_2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_response" />

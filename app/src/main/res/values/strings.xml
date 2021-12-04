@@ -6,9 +6,8 @@
 
         <string-array name="methods_array">
             <item>POST</item>
-            <item>DELETE</item>
             <item>PUT</item>
-            <item>PATCH</item>
+            <item>DELETE</item>
 
         </string-array>
 

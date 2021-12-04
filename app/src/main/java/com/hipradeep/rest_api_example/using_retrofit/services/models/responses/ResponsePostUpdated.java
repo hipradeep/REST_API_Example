@@ -1,8 +1,8 @@
-package com.hipradeep.rest_api_example.using_retrofit.services.models.responses.posts;
+package com.hipradeep.rest_api_example.using_retrofit.services.models.responses;
 
 import com.google.gson.annotations.SerializedName;
 
-public class PostsModel {
+public class ResponsePostUpdated{
 
 	@SerializedName("id")
 	private int id;
@@ -14,7 +14,7 @@ public class PostsModel {
 	private String body;
 
 	@SerializedName("userId")
-	private int userId;
+	private String userId;
 
 	public int getId(){
 		return id;
@@ -28,7 +28,7 @@ public class PostsModel {
 		return body;
 	}
 
-	public int getUserId(){
+	public String getUserId(){
 		return userId;
 	}
 }
